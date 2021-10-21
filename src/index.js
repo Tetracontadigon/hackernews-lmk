@@ -8,23 +8,34 @@ import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
+import { BrowserRouter } from 'react-router-dom'
+import { AUTH_TOKEN } from './constants'
+
+
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000'
 })
-/*
-const client = new ApolloClient({
-  link: httpLink,
-  cache: new InMemoryCache()
-}) */
 
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem(AUTH_TOKEN);
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : ''
+    }
+  };
+});
+
+//COMMENTED OUT BECAUSE IT OVERLAPPED? Unhandled Rejection (Error): GraphQL error: getUserId is not defined
+/*
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTYzMzM3OTIxMX0.HeuBGiu_2bwzIosaLK73693AbedF14EyCWpLo4KDAOg',
     }
   }
-});
+});*/
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
@@ -32,9 +43,11 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+  <BrowserRouter>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </BrowserRouter>,
   document.getElementById('root')
 )
 //registerServiceWorker()
