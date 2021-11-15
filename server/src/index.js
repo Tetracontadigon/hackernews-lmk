@@ -16,20 +16,6 @@ const prisma = new PrismaClient({
   errorFormat: 'minimal'
 });
 
-
-const server = new GraphQLServer({
-  typeDefs: './src/schema.graphql',
-  resolvers,
-  context: req => ({
-    ...req,
-    db: new Prisma({
-      typeDefs: 'src/generated/prisma.graphql',
-      endpoint: '__PRISMA_ENDPOINT__',
-      secret: 'mysecret123',
-    }),
-  }),
-})
-
 const resolvers = {
   Query,
   Mutation,
