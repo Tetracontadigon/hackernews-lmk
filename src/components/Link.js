@@ -50,6 +50,7 @@ class Link extends Component {
         <div className="ml1">
           <div>
           <a href={this.props.link.url} target="_blank">{this.props.link.description}</a>
+          {/* {this.props.link.postedBy.name} has eaten {this.props.link.postedBy.spiders_eaten} spiders */}
           </div>
           <div className="f6 lh-copy gray">
             {this.props.link.votes.length} votes | by{' '}
@@ -60,7 +61,8 @@ class Link extends Component {
   {/* below ternary operator check if any votes, shows last voter */}
             {this.props.link.votes[0] 
               ? ' ____ vote ids: first '+this.props.link.votes[0].id +' last '+this.props.link.votes[this.props.link.votes.length-1].id
-              : ' '}
+              : ' '} 
+              <div>Tags: {this.props.link.tag}</div>
           </div>
         </div>
       </div>
