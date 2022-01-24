@@ -5,6 +5,7 @@ type Query {
     skip: Int
     take: Int
     orderBy: LinkOrderByInput
+    vidOrderBy: VideoOrderByInput
   ): Feed!
 }
 
@@ -12,10 +13,13 @@ type Feed {
   id: ID!
   links: [Link!]!
   count: Int!
+  users: [User!]!
+  videos: [Video!]!
 }
 
 type Mutation {
   post(url: String!, description: String!, tag: String): Link!
+  postVid(url: String!, description: String!, tag: String): Video!
   signup(
     email: String!
     password: String!
@@ -23,6 +27,8 @@ type Mutation {
   ): AuthPayload
   login(email: String!, password: String!): AuthPayload
   vote(linkId: ID!): Vote
+  vidVote(videoId: ID!): VidVote 
+  # IDK^^^
 }
 
 type Subscription {
@@ -40,6 +46,7 @@ type User {
   name: String!
   email: String!
   links: [Link!]!
+  videos: [Video!]!
 }
 
 type Link {
@@ -58,9 +65,33 @@ type Vote {
   user: User!
 }
 
+type VidVote {
+  id: ID!
+  link: Link!
+  user: User!
+}
+
+type Video {
+  id: ID!
+  url: String!
+  description: String!
+  postedBy: User
+  votes: [Vote!]!
+  createdAt: DateTime!
+  tag: String!
+}
+
 input LinkOrderByInput {
   description: Sort
   url: Sort
+  id: Sort
+  createdAt: Sort
+}
+
+input VideoOrderByInput {
+  description: Sort
+  url: Sort
+  id: Sort
   createdAt: Sort
 }
 

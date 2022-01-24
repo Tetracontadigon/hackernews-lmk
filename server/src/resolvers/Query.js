@@ -3,7 +3,8 @@ async function feed(parent, args, context, info) {
     ? {
         OR: [
           { description: { contains: args.filter } },
-          { url: { contains: args.filter } }
+          { url: { contains: args.filter } },
+          { tag: { contains: args.filter } }
         ]
       }
     : {};
@@ -15,11 +16,27 @@ async function feed(parent, args, context, info) {
     orderBy: args.orderBy
   });
 
+  const videos = await context.prisma.video.findMany({
+    where,
+    skip: args.skip,
+    take: args.take,
+    orderBy: args.orderBy
+  });
+
+  const users = await context.prisma.user.findMany();
+
   const count = await context.prisma.link.count({ where });
+
+  const vidcount = await context.prisma.video.count({ where });
+
+  //const countUser = await context.prisma.user.count({ where });
 
   return {
     id: 'main-feed',
     links,
+    videos,
+    users,
+    vidcount,
     count
   };
 }

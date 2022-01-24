@@ -8,6 +8,7 @@ function post(parent, args, context, info) {
   const newLink = context.prisma.link.create({
     data: {
       url: args.url,
+      tag: args.tag,
       description: args.description,
       postedBy: { connect: { id: userId } }
     }
@@ -15,6 +16,22 @@ function post(parent, args, context, info) {
   context.pubsub.publish('NEW_LINK', newLink);
 
   return newLink;
+}
+
+function postVid(parent, args, context, info) {
+  const { userId } = context;
+
+  const newVideo = context.prisma.video.create({
+    data: {
+      url: args.url,
+      tag: args.tag,
+      description: args.description,
+      postedBy: { connect: { id: userId } }
+    }
+  });
+  context.pubsub.publish('NEW_VIDEO', newVideo);
+
+  return newVideo;
 }
 
 async function signup(parent, args, context, info) {
@@ -82,9 +99,37 @@ async function vote(parent, args, context, info) {
   }
 }
 
+async function vidVote(parent, args, context, info) {
+  const { userId } = context;
+  const vidVote = await context.prisma.vidVote.findUnique({
+    where: {
+      videoId_userId: {
+        videoId: Number(args.videoId),
+        userId: userId
+      }
+    }
+  });
+
+  if (!Boolean(vidVote)) {
+    const newVidVote = context.prisma.vidVote.create({
+      data: {
+        user: { connect: { id: userId } },
+        link: { connect: { id: Number(args.videoId) } }
+      }
+    });
+    context.pubsub.publish('NEW_VIDVOTE', newVidVote);
+  
+    return newVidVote;
+    // throw new Error(
+    //   `Already voted for link: ${args.linkId}`
+    // );
+  }
+}
+
 module.exports = {
   post,
   signup,
   login,
-  vote
+  vote,
+  vidVote
 };
