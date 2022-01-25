@@ -10,6 +10,8 @@ import FilteredList from './Filtered'
 import UserList from './UserList'
 import VideoList from './VideoList'
 import CreateVideo from './CreateVideo'
+import FaqList from './FaqList'
+import CreateFaq from './CreateFaq'
 
 class App extends Component {
   render() {
@@ -30,6 +32,8 @@ class App extends Component {
             <Route exact path='/users' component={UserList} />
             <Route exact path='/videos' component={VideoList} />
             {/* <Route exact path='/users' component={UserList} /> */}
+            <Route exact path='/faqs' component={FaqList} />
+            <Route exact path='/newfaq' component={CreateFaq} />
           </Switch>
         </div>
       </div>

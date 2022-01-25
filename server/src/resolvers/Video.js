@@ -4,13 +4,13 @@ function postedBy(parent, args, context) {
       .postedBy();
   }
   
-  function votes(parent, args, context) {
+  function vidVotes(parent, args, context) {
     return context.prisma.video
       .findUnique({ where: { id: parent.id } })
-      .votes();
+      .vidVotes();
   }
   
   module.exports = {
     postedBy,
-    votes
+    vidVotes
   };

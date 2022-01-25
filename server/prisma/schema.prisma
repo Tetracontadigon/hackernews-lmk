@@ -30,7 +30,6 @@ model Video {
   tag         String   @default("general")
 }
 
-
 model User {
   id       Int    @id @default(autoincrement())
   name     String
@@ -40,6 +39,7 @@ model User {
   videos   Video[]
   vidVotes VidVote[]
   votes    Vote[]
+  faq      Faq[]
 }
 
 model Vote {
@@ -60,4 +60,14 @@ model VidVote {
   userId Int
 
   @@unique([videoId, userId])
+}
+
+model Faq {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  description String
+  url         String
+  tag         String
+  postedBy    User     @relation(fields: [postedById], references: [id])
+  postedById  Int
 }

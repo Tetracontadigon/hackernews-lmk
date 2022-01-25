@@ -34,6 +34,22 @@ function postVid(parent, args, context, info) {
   return newVideo;
 }
 
+async function faq(parent, args, context, info) {
+  const { userId } = context;
+
+  const newFaq = context.prisma.faq.create({
+    data: {
+      url: args.url,
+      tag: args.tag,
+      description: args.description,
+      postedBy: { connect: { id: userId } }
+    }
+  });
+  context.pubsub.publish('NEW_FAQ', newFaq);
+
+  return newFaq;
+}
+
 async function signup(parent, args, context, info) {
   const password = await bcrypt.hash(args.password, 10);
   const user = await context.prisma.user.create({
@@ -131,5 +147,6 @@ module.exports = {
   signup,
   login,
   vote,
+  faq,
   vidVote
 };

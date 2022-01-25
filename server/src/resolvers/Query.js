@@ -23,7 +23,9 @@ async function feed(parent, args, context, info) {
     orderBy: args.orderBy
   });
 
-  const users = await context.prisma.user.findMany();
+  const users = await context.prisma.user.findMany({ where });
+
+  const faqs = await context.prisma.faq.findMany({ where });
 
   const count = await context.prisma.link.count({ where });
 
@@ -37,6 +39,7 @@ async function feed(parent, args, context, info) {
     videos,
     users,
     vidcount,
+    faqs,
     count
   };
 }

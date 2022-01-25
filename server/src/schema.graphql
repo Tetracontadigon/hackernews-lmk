@@ -14,6 +14,7 @@ type Feed {
   links: [Link!]!
   count: Int!
   users: [User!]!
+  faqs: [Faq!]!
   videos: [Video!]!
 }
 
@@ -28,6 +29,7 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload
   vote(linkId: ID!): Vote
   vidVote(videoId: ID!): VidVote 
+  faq(url: String!, description: String!, tag: String): Faq!
   # IDK^^^
 }
 
@@ -47,6 +49,17 @@ type User {
   email: String!
   links: [Link!]!
   videos: [Video!]!
+  faqs: [Faq!]!
+}
+
+type Faq {
+  id: ID!
+  description: String!
+  url: String!
+  tag: String
+  postedBy: User
+  createdAt: DateTime!
+  # user: User!
 }
 
 type Link {
@@ -79,6 +92,7 @@ type Video {
   votes: [Vote!]!
   createdAt: DateTime!
   tag: String!
+  # user: User!
 }
 
 input LinkOrderByInput {
