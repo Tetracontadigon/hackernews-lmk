@@ -6,6 +6,7 @@ const Subscription = require('./resolvers/Subscription');
 const User = require('./resolvers/User');
 const Link = require('./resolvers/Link');
 const Vote = require('./resolvers/Vote');
+const Pic = require('./resolvers/Pic');
 const fs = require('fs');
 const path = require('path');
 const { getUserId } = require('./utils');
@@ -22,6 +23,7 @@ const resolvers = {
   Subscription,
   User,
   Link,
+  Pic,
   Vote
 };
 

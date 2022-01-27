@@ -15,6 +15,7 @@ type Feed {
   count: Int!
   users: [User!]!
   videos: [Video!]!
+  pics: [Pic!]!
 }
 
 type Mutation {
@@ -47,6 +48,7 @@ type User {
   email: String!
   links: [Link!]!
   videos: [Video!]!
+  pics: [Pic!]!
 }
 
 type Link {
@@ -77,6 +79,15 @@ type Video {
   description: String!
   postedBy: User
   votes: [Vote!]!
+  createdAt: DateTime!
+  tag: String!
+}
+
+type Pic {
+  id: ID!
+  description: String!
+  url: String!
+  postedBy: User
   createdAt: DateTime!
   tag: String!
 }

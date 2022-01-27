@@ -40,6 +40,7 @@ model User {
   videos   Video[]
   vidVotes VidVote[]
   votes    Vote[]
+  pics     Pic[]
 }
 
 model Vote {
@@ -60,4 +61,14 @@ model VidVote {
   userId Int
 
   @@unique([videoId, userId])
+}
+
+model Pic {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  description String
+  url         String
+  postedBy    User     @relation(fields: [postedById], references: [id])
+  postedById  Int
+  tag         String   @default("hello")
 }

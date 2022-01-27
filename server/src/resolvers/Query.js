@@ -24,9 +24,8 @@ async function feed(parent, args, context, info) {
   });
 
   const users = await context.prisma.user.findMany();
-
   const count = await context.prisma.link.count({ where });
-
+  const pics = await context.prisma.pic.findMany({ where });
   const vidcount = await context.prisma.video.count({ where });
 
   //const countUser = await context.prisma.user.count({ where });
@@ -37,6 +36,7 @@ async function feed(parent, args, context, info) {
     videos,
     users,
     vidcount,
+    pics,
     count
   };
 }
