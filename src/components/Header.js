@@ -33,6 +33,10 @@ class Header extends Component {
   <Link to="/videos" className="ml1 no-underline black">
     videos
   </Link>
+  <div className="ml1">|</div>
+  <Link to="/pics" className="ml1 no-underline black">
+    pictures
+  </Link>
   {authToken && (
     <div className="flex">
       <div className="ml1">|</div>
